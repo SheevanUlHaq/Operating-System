@@ -1,0 +1,39 @@
+#include<stdio.h>
+
+int main(){
+    int i,j,n,t,sum_wait=0,sum_turnaround=0,smallest,remain;
+    int at[10],bt[10],pt[10],rt[10];
+    printf("Enter no. of processes : ");
+    scanf("%d",&n);
+    remain=n;
+    printf("Enter arrival time burst time and prority for :- \n");
+    for(i=0;i<n;i++){
+        printf("Process %d ->\n",i+1);
+        scanf("%d",&at[i]);
+        scanf("%d",&bt[i]);
+        scanf("%d",&pt[i]);
+        rt[i]=bt[i];
+    }
+    pt[9]=11;
+    printf("\n\nProcess\t|Turnaround time|Waiting time\n");
+    for(t=0;remain!=0;t++){
+        smallest=9;
+        for(i=0;i<n;i++)
+        {
+            if(at[i]<t&&pt[i]<pt[smallest]&&rt[i]>0){
+                smallest=i;
+            }
+        }
+        rt[smallest]--;
+        if(rt[smallest]==0){
+            remain--;
+            printf("P: %d\t|\t   %d\t\|\t    %d\n",smallest+1,t+1-at[smallest],t+1-at[smallest]-bt[smallest]);
+            sum_wait+=t+1-at[smallest];
+            sum_turnaround+=t+1-at[smallest]-bt[smallest];
+        }
+    }
+    printf("\nAverage Waiting Time: %f",sum_wait*1.0/n);
+    printf("\nAverage Turnaround Time: %f\n",sum_turnaround*1.0/n);
+    
+    return 0;
+}
